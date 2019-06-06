@@ -1,0 +1,4 @@
+$("#chart").html(
+  "<%= escape_javascript(render('api/v1/statistics/chart', locals: { response: @response })) %>"
+);
+var data = "<%= @response %>";

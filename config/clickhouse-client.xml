@@ -1,0 +1,5 @@
+<config>
+    <user>default</user>
+    <password>123</password>
+    <secure>False</secure>
+</config>
