@@ -4,8 +4,10 @@ module Api::V1
     end
 
     def dashboard
-      @response = ClickhouseData.q1
+      response = ClickhouseData.q1(params)
       # @data = JSON.parse(@response)
+      @labels = response.first
+      @values = response.last
       respond_to do |format|
         format.html { render(:text => "not implemented") }
         format.js { }

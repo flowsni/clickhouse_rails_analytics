@@ -1,0 +1,36 @@
+<canvas id="pieChart" width="400" height="400"></canvas>
+
+<script>
+  var ctx = document.getElementById('pieChart').getContext('2d');
+  ctx.height = 600;
+  var data = {
+    labels: [
+        "Saudi Arabia",
+        "Russia",
+        "Iraq",
+        "United Arab Emirates",
+        "Canada"
+    ],
+    datasets: [
+        {
+            data: [133.3, 86.2, 52.2, 51.2, 50.2],
+            backgroundColor: [
+                "#FF6384",
+                "#63FF84",
+                "#84FF63",
+                "#8463FF",
+                "#6384FF"
+            ]
+        }]
+  };
+  var options = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  var myPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      //options: options
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+    }
+  });
+</script>

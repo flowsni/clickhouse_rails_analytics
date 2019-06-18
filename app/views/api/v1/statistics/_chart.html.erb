@@ -1,16 +1,15 @@
 <canvas id="myChart" width="400" height="400"></canvas>
-<%= @response %>
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 ctx.height = 600;
-
+var labels = <%=raw @labels %>;
+var values = <%=raw @values %>
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        labels: labels,
         datasets: [{
-            label: '# of Votes',
-            data: JSON.parse("<%= @response %>"),
+            data: values,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -33,6 +32,9 @@ var myChart = new Chart(ctx, {
     options: {
         maintainAspectRatio: false,
         responsive: true,
+        legend: {
+            display: false
+        },
         scales: {
             yAxes: [{
                 ticks: {

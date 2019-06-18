@@ -1,18 +1,29 @@
 class ClickhouseData
-  def self.q1
-    #countries = `echo 'SELECT DayOfWeek, count(*) AS c FROM ontime WHERE Year >= 2000 AND Year <= 2008 GROUP BY DayOfWeek ORDER BY c DESC FORMAT JSONEachRow' | curl 'http://default:123@127.0.0.1/?output_format_json_quote_64bit_integers=1' -d @-`
-    countries = `echo 'SELECT DayOfWeek, count(*) AS c FROM datasets.ontime WHERE Year >= 2006 AND
-      Year <= 2018 GROUP BY DayOfWeek ORDER BY c DESC FORMAT JSON' |
-      curl 'http://default:123@localhost:8123/' -d @-`
+  def self.q1(params)
 
-      data = JSON.parse(countries)['data']
-    sorted_data = data.sort_by { |k| k['DayOfWeek'] }
-    days = []
-    counts = []
-    sorted_data.each do |value|
-      counts.push(value['c'].to_i)
+  #  countries = `echo 'SELECT DayOfWeek, count(*) AS c FROM datasets.ontime WHERE Year >= 2006 AND
+  #    Year <= 2018 GROUP BY DayOfWeek ORDER BY c DESC FORMAT JSON' |
+  #    curl 'http://default:123@localhost:8123/' -d @-`
+
+    @query ||= `echo "SELECT #{params[:user][:event_name]}, count() as c from datasets.ontime
+      where Year >= #{params[:user][:date_from]} and Year <= #{params[:user][:date_to]}
+      group by #{params[:user][:event_name]}
+      order by c desc limit 7 FORMAT JSON" | curl 'http://default:123@localhost:8123/' -d @-`
+
+    data = JSON.parse(@query)['data']
+    labels = []
+    values = []
+    if params[:user][:event_name] == 'DayOfWeek'
+      sorted_data = data.sort_by { |k| k['DayOfWeek'] }
+      labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      values = sorted_data.map do |value|
+        value['c'].to_i
+      end
+    else
+      labels = data.map{|v| v.first.last }
+      values = data.map{|v| v['c'].to_i }
     end
-    counts
+    [labels, values]
   end
 
   def self.q2
