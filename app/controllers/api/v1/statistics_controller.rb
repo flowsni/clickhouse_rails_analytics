@@ -4,6 +4,7 @@ module Api::V1
     end
 
     def dashboard
+      # return unless params[:user]
       response = ClickhouseData.q1(params)
       # @data = JSON.parse(@response)
       @labels = response.first

@@ -4,8 +4,7 @@ class ClickhouseData
   #  countries = `echo 'SELECT DayOfWeek, count(*) AS c FROM datasets.ontime WHERE Year >= 2006 AND
   #    Year <= 2018 GROUP BY DayOfWeek ORDER BY c DESC FORMAT JSON' |
   #    curl 'http://default:123@localhost:8123/' -d @-`
-
-    @query ||= `echo "SELECT #{params[:user][:event_name]}, count() as c from datasets.ontime
+    @query = `echo "SELECT #{params[:user][:event_name]}, count() as c from datasets.ontime
       where Year >= #{params[:user][:date_from]} and Year <= #{params[:user][:date_to]}
       group by #{params[:user][:event_name]}
       order by c desc limit 7 FORMAT JSON" | curl 'http://default:123@localhost:8123/' -d @-`

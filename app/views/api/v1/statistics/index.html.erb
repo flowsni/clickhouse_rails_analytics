@@ -1,15 +1,20 @@
 <div class='form-container'>
   <%= simple_form_for :user, url: api_v1_dashboard_path, remote: true do |f| %>
 
-    <% events = [['Dep delay', 'DepDelay'], ['Day of week', 'DayOfWeek'], ['Origin City Name', 'OriginCityName']] %>
+    <% events = [
+        ['DayOfWeek', 'DayOfWeek'],
+        ['OriginCityName', 'OriginCityName'],
+        ['DestStateName', ['DestStateName']]
+      ]
+    %>
 
-    <%= f.input :event_name, label: 'Event name:', collection: events, required: false, input_html: { class: "mb-2 mr-sm-2" } %>
+    <%= f.input :event_name, label: 'Название события:', collection: events, required: false, input_html: { class: "mb-2 mr-sm-2" } %>
 
-    <%= f.input :date_from, label: 'Date from:', collection: 2005..2019, required: false, input_html: { class: "mb-2 mr-sm-2" } %>
+    <%= f.input :date_from, label: 'Дата с:', collection: 2005..2019, required: false, input_html: { class: "mb-2 mr-sm-2" } %>
 
-    <%= f.input :date_to, label: 'Date to:', collection: 2005..2019, required: false, input_html: { class: "mb-2 mr-sm-2" } %>
+    <%= f.input :date_to, label: 'Дата до:', collection: 2005..2019, required: false, input_html: { class: "mb-2 mr-sm-2" } %>
 
-    <%= f.button :submit, 'Make a report', class: "btn-primary mb-2" %>
+    <%= f.button :submit, 'Создать отчет', class: "btn-primary mb-2" %>
   <% end %>
 </div>
 <div id="chart">
